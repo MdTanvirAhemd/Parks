@@ -3,7 +3,11 @@ package com.ahmed.parks;
 import androidx.fragment.app.FragmentActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 
+import com.ahmed.parks.data.AsyncResponse;
+import com.ahmed.parks.data.Repository;
+import com.ahmed.parks.model.Park;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -11,6 +15,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.ahmed.parks.databinding.ActivityMapsBinding;
+
+import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -47,5 +53,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+        Repository.getParks((AsyncResponse) parks -> {
+
+            for (Park park:parks) {
+                Log.d("TTAG", "OnMapReady: " +park.getFullName());
+
+            }
+        }, "");
     }
 }
